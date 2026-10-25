@@ -1,0 +1,161 @@
+{
+  "enabled": {
+    "type": "bool",
+    "description": "总开关",
+    "default": true,
+    "hint": "关闭后不心跳、不注入、不主动说话，已有数据保留。"
+  },
+  "inject": {
+    "type": "object",
+    "description": "心境注入",
+    "items": {
+      "enabled": {
+        "type": "bool",
+        "description": "把当前心境写进系统提示词",
+        "default": true,
+        "hint": "钩子固定使用 priority=-10（AstrBot 按优先级降序执行），保证排在天使之心(40)与 TTS(0) 之后，只追加不覆盖。"
+      },
+      "min_gap_minutes": {
+        "type": "int",
+        "description": "两次注入的最小间隔（分钟）",
+        "default": 20,
+        "hint": "即使状态变化，也至少间隔这么久才再注入一次，避免每轮刷屏。"
+      }
+    }
+  },
+  "tick": {
+    "type": "object",
+    "description": "心跳",
+    "items": {
+      "base_interval_minutes": {
+        "type": "int",
+        "description": "常规心跳间隔（分钟）",
+        "default": 45
+      },
+      "min_interval_minutes": {
+        "type": "int",
+        "description": "最短心跳间隔（分钟）",
+        "default": 15,
+        "hint": "状态越紧张（压力/责怪越高）心跳越快，下限由这里决定。"
+      }
+    }
+  },
+  "proactive": {
+    "type": "object",
+    "description": "主动说话",
+    "items": {
+      "enabled": {
+        "type": "bool",
+        "description": "允许她主动开口",
+        "default": true
+      },
+      "cooldown_hours": {
+        "type": "float",
+        "description": "两次主动说话的最小间隔（小时）",
+        "default": 6.0
+      },
+      "daily_limit": {
+        "type": "int",
+        "description": "每天最多主动说几次",
+        "default": 4
+      },
+      "min_idle_minutes": {
+        "type": "int",
+        "description": "你刚说完话多久内不主动打扰（分钟）",
+        "default": 10
+      },
+      "quiet_hours": {
+        "type": "string",
+        "description": "免打扰时段",
+        "default": "01:30-07:30",
+        "hint": "格式 HH:MM-HH:MM，留空表示不限制。这段时间内不发，但会在开机后补发最多 1 条。"
+      },
+      "catch_up_on_start": {
+        "type": "bool",
+        "description": "启动时补发错过的主动消息",
+        "default": true,
+        "hint": "开机后如果她已经憋了很久（超过冷却且错过免打扰时段），允许补发最多 1 条。"
+      },
+      "target_umo": {
+        "type": "string",
+        "description": "主动说话发往哪个会话（UMO）",
+        "default": "",
+        "hint": "留空=自动记住最近一次跟她说话的会话。不知道 UMO 可以发 /情绪 umo 查询。"
+      }
+    }
+  },
+  "voice": {
+    "type": "object",
+    "description": "主动说话配音",
+    "items": {
+      "enabled": {
+        "type": "bool",
+        "description": "主动说话时尝试发语音",
+        "default": true,
+        "hint": "复用 astrbot_plugin_tts_emotion_router 的合成能力（同一套 minimax/音色配置），插件没装或未启用时自动退回纯文字。"
+      },
+      "base_probability": {
+        "type": "float",
+        "description": "基础配音概率",
+        "default": 0.1
+      },
+      "max_probability": {
+        "type": "float",
+        "description": "配音概率上限",
+        "default": 0.75
+      }
+    }
+  },
+  "perception": {
+    "type": "object",
+    "description": "情绪感知",
+    "items": {
+      "use_emo_marker": {
+        "type": "bool",
+        "description": "读取 TTS 插件的 [EMO:xxx] 情绪标记",
+        "default": true,
+        "hint": "需要 TTS 插件开启 marker。会以更高优先级读取，不影响 TTS 自己消费该标记。"
+      },
+      "keyword_fallback": {
+        "type": "bool",
+        "description": "没有 EMO 标记时用关键词判断",
+        "default": true
+      }
+    }
+  },
+  "debug": {
+    "type": "bool",
+    "description": "调试日志",
+    "default": false,
+    "hint": "打开后每次 tick/注入/主动说话都会写一条 info 日志。"
+  },
+  "thought": {
+    "type": "object",
+    "description": "念头系统",
+    "items": {
+      "enabled": {
+        "type": "bool",
+        "description": "生成并跟踪她的小念头（想被夸/想被抱/想找他说话…），满足后会留下心情",
+        "default": true,
+        "hint": "关掉后退回旧版固定念头池，其余功能不受影响"
+      },
+      "min_weight": {
+        "type": "float",
+        "description": "念头入池门槛：驱动高出基线多少才凝成念头",
+        "default": 0.2,
+        "hint": "调高更佛系，调低更频繁地冒小念头"
+      },
+      "ttl_hours": {
+        "type": "float",
+        "description": "念头最多挂多久（小时，软过期）",
+        "default": 24.0,
+        "hint": "软过期后不再注入，但仍留到 3 倍时长才真正删除"
+      },
+      "proactive_push": {
+        "type": "float",
+        "description": "有念头时主动说话的概率加成",
+        "default": 0.15
+      }
+    }
+  }
+}

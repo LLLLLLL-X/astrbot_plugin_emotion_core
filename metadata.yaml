@@ -1,0 +1,28 @@
+name: astrbot_plugin_emotion_core
+display_name: 情绪核心
+short_desc: 让角色拥有会变化的心境：九维驱动、委屈/害怕/关闭三态、主动说话与语音
+desc: |
+  给角色一颗"会变的心"，而不是一堆记忆。
+
+  特点：
+  - 九维驱动（依恋/好奇/反刍/责任/社交/疲惫/亲密/压力/喜悦），45 分钟慢心跳、最低 15 分钟
+  - 两条快变量：期待值 expectation（她主动开口后你没回）与责怪压力 blame_pressure（你凶了她）
+  - 四个状态：平静 0-30 / 委屈 30-55 / 害怕 55-80 / 关闭 80+，带真假哄辨识
+  - 心境会写进系统提示词（只在跨阈值时注入 ≤120 字，不刷屏、不抢记忆插件优先级）
+  - 主动说话走 AstrBot 消息管线（可触发 TTS 语音），带冷却与每日上限
+  - 八类念头（想被夸/想被抱/想找他说话/想问他今天怎样/想找点事做/想安静/想撒娇/在等他回话），会挂、会惦记、会被满足后留下心情
+  - 不建第二套记忆、不改动任何已有记忆数据；可与天使之心等记忆插件共存
+  - 数据落在 data/plugin_data/astrbot_plugin_emotion_core/，纯 ASCII 依赖，无第三方包
+
+  适合：想要"她有自己的情绪和小心思"的人。不适合：只想让角色永远热情满分的人。
+version: 1.1.0
+author: LLL
+repo: https://github.com/LLLLLLL-X/astrbot_plugin_emotion_core
+astrbot_version: ">=4.16"
+support_platforms:
+  - aiocqhttp
+tags:
+  - 情绪
+  - 拟人
+  - 主动说话
+  - 语音
