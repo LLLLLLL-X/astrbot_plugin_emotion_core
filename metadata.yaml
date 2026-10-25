@@ -15,8 +15,8 @@ desc: |
   - 数据落在 data/plugin_data/astrbot_plugin_emotion_core/，纯 ASCII 依赖，无第三方包
 
   适合：想要"她有自己的情绪和小心思"的人。不适合：只想让角色永远热情满分的人。
-version: 1.1.0
-author: LLL
+version: 1.1.1
+author: LLLLLLL-X
 repo: https://github.com/LLLLLLL-X/astrbot_plugin_emotion_core
 astrbot_version: ">=4.16"
 support_platforms:
